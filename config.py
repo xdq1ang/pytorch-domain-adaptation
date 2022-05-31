@@ -1,3 +1,4 @@
 from pathlib import Path
+import os
 
-DATA_DIR = Path(r'D:\MyLab\pytorch-domain-adaptation')
+DATA_DIR = Path(os.getcwd())
