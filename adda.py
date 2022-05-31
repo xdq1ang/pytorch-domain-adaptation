@@ -10,9 +10,13 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import MNIST
 from torchvision.transforms import Compose, ToTensor
 from tqdm import tqdm, trange
+from visdom import Visdom
+viz = Visdom()
 
 import config
 from data import MNISTM
+from data import MyMNIST
+from data import USTP
 from models import Net
 from utils import loop_iterable, set_requires_grad, GrayscaleToRgb
 
@@ -48,6 +52,7 @@ def main(args):
                                shuffle=True, num_workers=1, pin_memory=True)
     
     target_dataset = MNISTM(train=False)
+    #target_dataset = USTP()
     target_loader = DataLoader(target_dataset, batch_size=half_batch,
                                shuffle=True, num_workers=1, pin_memory=True)
 
@@ -67,6 +72,10 @@ def main(args):
             for _ in range(args.k_disc):
                 (source_x, _), (target_x, _) = next(batch_iterator)
                 source_x, target_x = source_x.to(device), target_x.to(device)
+                # 源域数据可视化
+                viz.images(source_x, win="source_dataset")
+                # 目标域数据可视化
+                viz.images(target_x, win="target_dataset")
 
                 source_features = source_model(source_x).view(source_x.shape[0], -1)
                 target_features = target_model(target_x).view(target_x.shape[0], -1)

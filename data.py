@@ -3,8 +3,31 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
-
+import pickle
+import gzip
 import config
+from torchvision.datasets import MNIST
+from PIL import Image
+import numpy as np
+
+
+class USTP(Dataset):
+
+    def __init__(self):
+        path = config.DATA_DIR / 'usps_28x28.pkl'
+        f = gzip.open(path, "rb")
+        self.data_set = pickle.load(f, encoding="bytes")
+
+
+    def __getitem__(self, i):
+        image = self.data_set[0][0][i]*255
+        image = Image.fromarray(image[0])
+        image = image.convert("RGB")
+        tensor = transforms.ToTensor()(image)
+        return tensor,0
+
+    def __len__(self):
+        return len(self.data_set[0][0])
 
 
 class BSDS500(Dataset):
@@ -53,3 +76,10 @@ class MNISTM(Dataset):
 
     def __len__(self):
         return len(self.mnist)
+
+
+class MyMNIST(MNIST):
+    def dataSlice(self,n):
+        self.data = self.data[0:n]
+        self.targets = self.targets[0:n]
+
