@@ -5,6 +5,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# dataset
+BSR/
+mnist/
+usps_28x28.pkl
+BSR_bsds500.tgz
+
 # C extensions
 *.so
 
