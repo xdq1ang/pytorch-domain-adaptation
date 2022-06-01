@@ -9,6 +9,8 @@ __pycache__/
 BSR/
 mnist/
 
+*.pkl
+
 # C extensions
 *.so
 
