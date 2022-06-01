@@ -114,6 +114,8 @@ def main(args):
 
         mean_loss = total_loss / (args.iterations*args.k_disc)
         mean_accuracy = total_accuracy / (args.iterations*args.k_disc)
+        viz.line(mean_loss,epoch,win="discriminator_loss",update="append",opts=dict(title="discriminator_loss"))
+        viz.line(mean_accuracy, epoch, win="discriminator_accuracy", update="append", opts=dict(title="discriminator_accuracy"))
         tqdm.write(f'EPOCH {epoch:03d}: discriminator_loss={mean_loss:.4f}, '
                    f'discriminator_accuracy={mean_accuracy:.4f}')
 
